@@ -1,0 +1,26 @@
+{
+  "name": "prgaurdian",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "@octokit/auth-app": "^8.3.0",
+    "@octokit/rest": "^22.0.1",
+    "@pinecone-database/pinecone": "^8.2.0",
+    "bullmq": "^6.3.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "ioredis": "^6.0.0",
+    "mongoose": "^9.9.4",
+    "socket.io": "^4.8.3"
+  }
+}

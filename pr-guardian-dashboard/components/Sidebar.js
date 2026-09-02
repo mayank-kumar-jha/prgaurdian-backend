@@ -17,6 +17,7 @@ import {
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/repos", label: "Repositories", icon: GitFork },
+  { href: "/dashboard/settings", label: "Global Settings", icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -114,15 +115,13 @@ export default function Sidebar() {
         </div>
       )}
 
-      {/* Bottom section */}
+      {/* Bottom section — version badge */}
       <div className="p-3 border-t border-[#15241b] flex-shrink-0">
-        <Link
-          href="/dashboard/repos"
-          className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm text-zinc-400 hover:text-emerald-300 hover:bg-[#0d1611] transition-all"
-        >
-          <Settings className="w-4 h-4 text-zinc-500 flex-shrink-0" strokeWidth={1.75} />
-          {(!collapsed || isMobile) && <span>Global Settings</span>}
-        </Link>
+        {(!collapsed || isMobile) && (
+          <p className="text-[10px] text-zinc-600 px-3 py-1">
+            PR Guardian · v1.0
+          </p>
+        )}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ const connectDB = require('./db');
 const Repo = require('./models/Repo');
 const Review = require('./models/Review');
 const Override = require('./models/Override');
+const GlobalSettings = require('./models/GlobalSettings');
 const { prReviewQueue } = require('./queue');
 const { getAppOctokit, getInstallationOctokit } = require('./indexRepo');
 
@@ -398,6 +399,48 @@ app.patch('/api/settings/:repoId', async (req, res) => {
     }
 });
 
+
+// GET /api/settings/global
+app.get('/api/settings/global', async (req, res) => {
+    try {
+        const doc = await GlobalSettings.findById('global');
+        if (!doc) {
+            // Return defaults if not yet created
+            return res.json({
+                defaultStrictness: 'balanced',
+                autoApproveTrivial: false,
+                globalCustomRules: '',
+                notifyOnBlock: true,
+                notifyOnApprove: false,
+            });
+        }
+        res.json(doc);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// PATCH /api/settings/global
+app.patch('/api/settings/global', async (req, res) => {
+    try {
+        const { defaultStrictness, autoApproveTrivial, globalCustomRules, notifyOnBlock, notifyOnApprove } = req.body;
+        const updateFields = {};
+        if (defaultStrictness  !== undefined) updateFields.defaultStrictness  = defaultStrictness;
+        if (autoApproveTrivial  !== undefined) updateFields.autoApproveTrivial  = autoApproveTrivial;
+        if (globalCustomRules   !== undefined) updateFields.globalCustomRules   = globalCustomRules;
+        if (notifyOnBlock       !== undefined) updateFields.notifyOnBlock       = notifyOnBlock;
+        if (notifyOnApprove     !== undefined) updateFields.notifyOnApprove     = notifyOnApprove;
+
+        const doc = await GlobalSettings.findByIdAndUpdate(
+            'global',
+            { $set: updateFields },
+            { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
+        );
+        res.json(doc);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
 // PATCH /api/repos/:id/active
 app.patch('/api/repos/:id/active', async (req, res) => {
     try {

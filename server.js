@@ -18,7 +18,10 @@ const app = express();
 const httpServer = http.createServer(app);
 
 // ── CORS ──────────────────────────────────────────────────────────────────────
-const CORS_ORIGIN = process.env.FRONTEND_ORIGIN || 'http://localhost:3001';
+const CORS_ORIGIN = ['http://localhost:3001', 'https://pr-guardian-dashboard.vercel.app'];
+if (process.env.FRONTEND_ORIGIN && !CORS_ORIGIN.includes(process.env.FRONTEND_ORIGIN)) {
+    CORS_ORIGIN.push(process.env.FRONTEND_ORIGIN);
+}
 
 app.use(cors({
     origin: CORS_ORIGIN,
